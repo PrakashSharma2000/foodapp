@@ -1,36 +1,42 @@
-import React, { useState } from 'react'
+import React ,{useState} from 'react'
 
-export const AddItem = ({ total ,valU}) => {
-   var valu = 0
-  for(let i=0;i<=total;i++){
-        
-    if(isNaN(valU[i])){
-        continue;
-         }
-    valu +=Number(valU[i])
-        
-  }
+const AddItem = ({addData , total}) => //geeting data from parent 
+ {
 
-  let totala = parseFloat(valu * 10/100)
-  
-  const [lasttotal, setlasttotal] = useState([])
-  const aa = () =>setlasttotal(totala+valu)
+    var Billamount = 0 
 
+    for(let i=0;i<total;i++){ // add total bill before adding tip
+        Billamount += addData[i]
+    }
+
+    const [billaftertip,setbillaftertip]=useState() //to add a tip
+
+    let afun =() =>{
+            setbillaftertip(Billamount +(Billamount * (10/100)))// to add a tip to the final bill...
+    }
+
+   if(total>0){ // if coustmer didnt check any item bill will not be genrated.
     return (
         <div>
-           Total = {valu}
-            
-           <div>
-           <button type="" onClick={()=> aa()} >add 10% tip</button>
-              
-              <div>
-                  {lasttotal}
-              </div>
-             
-              
-           </div>
-           
+            <h3>Total</h3>
+            {addData.map(amount =>( 
+                <li>{amount}</li>
+            ))}
+           <strong>Bill Amount = </strong>
+            {Billamount}
+                <br/>
+                <button onClick ={()=>afun()}>Add 10% tip</button>
+                <br/>
+                <strong>Total:- </strong>{billaftertip}
+
         </div>
     )
+   }
+   else{
+       return(
+           <div>test</div>
+       )
+   }
 }
+
 export default AddItem
